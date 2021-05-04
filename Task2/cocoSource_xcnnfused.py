@@ -332,9 +332,11 @@ class GRUCell(nn.Module):
         print("reset:     ", reset.shape)
         print("state_old: ", state_old.shape)
         print("x:         ", x.shape)
-        
 
-        reset_cat = torch.cat((x, torch.dot(reset, state_old)), dim=1)
+        dot = torch.dot(reset, state_old)
+        print("dot:       ", dot)
+
+        reset_cat = torch.cat((x, dot), dim=1)
 
         cand_hidden = torch.mm(reset_cat, self.weight) + self.bias
         cand_hidden = torch.tanh(cand_hidden)
