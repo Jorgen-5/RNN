@@ -291,10 +291,12 @@ class GRUCell(nn.Module):
             Variance scaling:  Var[W] = 1/n
         """
 
+        #TODO REMOVE
+        """
         print("Input size:   ", input_size)
         print("hidden size:  ", hidden_state_size)
-
         print("input+weigh:  ", input_size + hidden_state_size)
+        """
 
         self.hidden_state_sizes = hidden_state_size
 
@@ -335,22 +337,31 @@ class GRUCell(nn.Module):
         update = torch.mm(input_cat, self.weight_u) + self.bias_u
         update = torch.sigmoid(update)
 
+        #TODO REMOVE
+        """
         print("reset:     ", reset.shape)
         print("state_old: ", state_old.shape)
         print("x:         ", x.shape)
+        """
 
         product = torch.mul(reset, state_old)
-        print("product:   ", product.shape)
+
+        #TODO REMOVE
+        #print("product:   ", product.shape)
 
         reset_cat = torch.cat((x, product), dim=1)
 
+        #TODO REMOVE
+        """
         print("reset_cat: ", reset_cat.shape)
         print("weight:    ", self.weight.shape)
+        """
 
         cand_hidden = torch.mm(reset_cat, self.weight) + self.bias
         cand_hidden = torch.tanh(cand_hidden)
 
-        print("cand_hidde: ", cand_hidden.shape)
+        #TODO REMOVE
+        #print("cand_hidde: ", cand_hidden.shape)
 
         hidden_state_update = torch.mul(update, state_old) + torch.mul(torch.sub(1,update), cand_hidden)
         state_new = hidden_state_update
