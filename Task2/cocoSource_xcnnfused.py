@@ -322,7 +322,7 @@ class GRUCell(nn.Module):
         print("state_old: ", state_old.shape)
         print("bias_r: ", self.bias_r.shape)
 
-        input_cat = torch.cat(x, state_old)
+        input_cat = torch.cat((x, state_old), dim=1)
 
         reset = torch.mm(input_cat, self.weight_r) + self.bias_r
         reset = torch.sigmoid(reset)
@@ -330,7 +330,7 @@ class GRUCell(nn.Module):
         update = torch.mm(input_cat, self.weight_u) + self.bias_u
         update = torch.sigmoid(update)
 
-        reset_cat = torch.cat(x, torch.dot(reset, state_old))
+        reset_cat = torch.cat((x, torch.dot(reset, state_old)), dim=1)
 
         cand_hidden = torch.mm(reset_cat, self.weight) + self.bias
         cand_hidden = torch.tanh(cand_hidden)
