@@ -291,6 +291,9 @@ class GRUCell(nn.Module):
             Variance scaling:  Var[W] = 1/n
         """
 
+        print("Input size:   ", inputSize)
+        print("hidden size:  ", hidden_state_size)
+
         print("input+weigh:  ", input_size + hidden_state_size)
 
         self.hidden_state_sizes = hidden_state_size
