@@ -332,6 +332,7 @@ class GRUCell(nn.Module):
         print("reset:     ", reset.shape)
         print("state_old: ", state_old.shape)
         print("x:         ", x.shape)
+        
 
         reset_cat = torch.cat((x, torch.dot(reset, state_old)), dim=1)
 
