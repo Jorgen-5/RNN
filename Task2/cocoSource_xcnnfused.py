@@ -353,7 +353,7 @@ class GRUCell(nn.Module):
         print("cand_hidde: ", cand_hidden.shape)
 
         hidden_state_update = torch.mul(update, state_old)
-        + torch.mul((1 - update), cand_hidden)
+        + torch.mul(torch.sub(1,update), cand_hidden)
         state_new = hidden_state_update
         return state_new
 
