@@ -350,6 +350,8 @@ class GRUCell(nn.Module):
         cand_hidden = torch.mm(reset_cat, self.weight) + self.bias
         cand_hidden = torch.tanh(cand_hidden)
 
+        print("cand_hidde: ", cand_hidden.shape)
+
         hidden_state_update = torch.mul(update, state_old)
         + torch.mm((1 - update), cand_hidden)
         state_new = hidden_state_update
