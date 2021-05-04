@@ -241,7 +241,7 @@ class RNN(nn.Module):
             for layer in range(self.num_rnn_layers - 1):
                 updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
 
-            logitskk = outputLayer(updatedstate[self.num_rnn_layers, :])
+            logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
 
             tokens = torch.argmax(logitskk, dim=1)
             logits_series.append(logitskk)
@@ -354,7 +354,6 @@ class GRUCell(nn.Module):
 
         hidden_state_update = torch.mul(update, state_old) + torch.mul(torch.sub(1,update), cand_hidden)
         state_new = hidden_state_update
-        print("HH")
         return state_new
 
 
