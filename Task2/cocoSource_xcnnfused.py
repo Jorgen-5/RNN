@@ -329,9 +329,9 @@ class GRUCell(nn.Module):
         update = torch.mm(input_cat, self.weight_u) + self.bias_u
         update = torch.sigmoid(update)
 
-        print("reset: ", reset.shape)
+        print("reset:     ", reset.shape)
         print("state_old: ", state_old.shape)
-        print("x: ", x.shape)
+        print("x:         ", x.shape)
 
         reset_cat = torch.cat((x, torch.dot(reset, state_old)), dim=1)
 
