@@ -334,7 +334,7 @@ class GRUCell(nn.Module):
         print("x:         ", x.shape)
 
         product = torch.mm(reset, torch.transpose(state_old, 0, 1))
-        print("dot:       ", product)
+        print("product:   ", product.shape)
 
         reset_cat = torch.cat((x, product), dim=1)
 
