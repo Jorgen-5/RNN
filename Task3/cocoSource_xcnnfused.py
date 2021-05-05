@@ -182,13 +182,17 @@ class RNN(nn.Module):
         self.cell_type = cell_type
 
         # TODO
-        input_size_list = []
+        input_size_list = [input_size] + [hidden_state_size for i in range(num_rnn_layers-1)]
+
         # input_size_list should have a length equal to the number of layers and input_size_list[i] should contain the input size for layer i
 
         # TODO
         # Your task is to create a list (self.cells) of type "nn.ModuleList" and populated it with cells of type "self.cell_type" - depending on the number of rnn layers
-        self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=self.input_size),
-                                    GRUCell(hidden_state_size=self.hidden_state_size, input_size=self.input_size)])
+
+        if cell_type = 'GRU':
+            self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size_list[i]) for i in range(self.num_rnn_layers-1)])
+        else if cell_type = 'LSTM':
+            self.cells = nn.ModuleList([LSTMCell(hidden_state_size=self.hidden_state_size, input_size=input_size_list[i]) for i in range(self.num_rnn_layers-1)])
 
         return
 
@@ -457,21 +461,24 @@ class LSTMCell(nn.Module):
 
         """
         # TODO:
-
-        input_cat = torch.cat((x, state_old), dim=1)
-        input_gate = torch.mm(input_cat, self.weight_i) + self.bias_i
+        input_cat = torch.cat((x, state_old[:,:self.hidden_state_size]), dim=1)
+        input_gate = torch.mm(input_cat, self.weight_i[:,:self.hidden_state_size]) + self.bias_i
         input_gate = torch.sigmoid(input_gate)
 
-        forget_gate = torch.mm(input_cat, self.weight_f) + self.bias_f
-        input_gate = torch.sigmoid(input_gate)
+        forget_gate = torch.mm(input_cat, self.weight_f[:,:self.hidden_state_size]) + self.bias_f
+        forget_gate = torch.sigmoid(forget_gate)
 
+        output_gate = torch.mm(input_cat, self.weight_o[:,:self.hidden_state_size]) + self.bias_o
+        output_gate = torch.sigmoid(output_gate)
 
-        output_gate = torch.mm(input_cat, self.weight_o) + self.bias_o
+        candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
+        candidate_memory = torch.tanh(candidate_memory)
 
+        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)
+        memory_cell_tanh = torch.tanh(memory_cell)
 
-
-        state_new = None
-
+        hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
+        state_new = hidden_state_update
         return state_new
 
 
