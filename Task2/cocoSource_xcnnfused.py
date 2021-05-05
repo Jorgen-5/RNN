@@ -135,8 +135,8 @@ class RNN_onelayer_simplified(nn.Module):
             # note that      current_state has 3 dims ( ...len(current_state.shape)==3... ) with first dimension having only 1 element, while the rnn cell needs a state with 2 dims as input
 
             current_state = torch.squeeze(current_state, dim=0)
-            updatedstate[0, :] = self.cells[0](lvl0input,
-                                               current_state)  # RNN cell is used here #uses lvl0input and the hiddenstate
+            updatedstate[0, :] = self.cells[0](lvl0input, current_state) 
+            # RNN cell is used here #uses lvl0input and the hiddenstate
 
             # for a 2 layer rnn you do this for every kk, but you do this when you are *at the last layer of the rnn* for the current sequence index kk
             # apply the output layer to the updated state
