@@ -135,7 +135,7 @@ class RNN_onelayer_simplified(nn.Module):
             # note that      current_state has 3 dims ( ...len(current_state.shape)==3... ) with first dimension having only 1 element, while the rnn cell needs a state with 2 dims as input
 
             current_state = torch.squeeze(current_state, dim=0)
-            updatedstate[0, :] = self.cells[0](lvl0input, current_state) 
+            updatedstate[0, :] = self.cells[0](lvl0input, current_state)
             # RNN cell is used here #uses lvl0input and the hiddenstate
 
             # for a 2 layer rnn you do this for every kk, but you do this when you are *at the last layer of the rnn* for the current sequence index kk
@@ -297,7 +297,7 @@ class GRUCell(nn.Module):
         print("hidden size:  ", hidden_state_size)
         print("input+weigh:  ", input_size + hidden_state_size)
         """
-
+        self.input_size = input_size
         self.hidden_state_sizes = hidden_state_size
 
         self.weight_u = nn.Parameter(
@@ -349,7 +349,7 @@ class GRUCell(nn.Module):
         #TODO REMOVE
         #print("product:   ", product.shape)
 
-        reset_cat = torch.cat((x, product), dim=1)
+        #reset_cat = torch.cat((x, product), dim=1)
 
         #TODO REMOVE
         """
@@ -357,7 +357,7 @@ class GRUCell(nn.Module):
         print("weight:    ", self.weight.shape)
         """
 
-        cand_hidden = torch.mm(reset_cat, self.weight) + self.bias
+        cand_hidden = torch.mm(x, self.weight_r[:self.input_size,:]) + torch.mm(product, self.weight[self.hidden_state_size:,:]) + self.bias
         cand_hidden = torch.tanh(cand_hidden)
 
         #TODO REMOVE
@@ -428,17 +428,21 @@ class LSTMCell(nn.Module):
         self.hidden_state_size = hidden_state_size
 
         # TODO:
-        self.weight_f = None
-        self.bias_f = None
+        self.weight_f = nn.Parameter(
+            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
+        self.bias_f = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
 
-        self.weight_i = None
-        self.bias_i = None
+        self.weight_i = nn.Parameter(
+            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
+        self.bias_i = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
 
-        self.weight_meminput = None
-        self.bias_meminput = None
+        self.weight_meminput = nn.Parameter(
+            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
+        self.bias_meminput = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
 
-        self.weight_o = None
-        self.bias_o = None
+        self.weight_o = nn.Parameter(
+            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
+        self.bias_o = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
 
         return
 
@@ -453,6 +457,19 @@ class LSTMCell(nn.Module):
 
         """
         # TODO:
+
+        input_cat = torch.cat((x, state_old), dim=1)
+        input_gate = torch.mm(input_cat, self.weight_i) + self.bias_i
+        input_gate = torch.sigmoid(input_gate)
+
+        forget_gate = torch.mm(input_cat, self.weight_f) + self.bias_f
+        input_gate = torch.sigmoid(input_gate)
+
+
+        output_gate = torch.mm(input_cat, self.weight_o) + self.bias_o
+
+
+
         state_new = None
 
         return state_new
