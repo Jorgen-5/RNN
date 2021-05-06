@@ -496,14 +496,16 @@ class LSTMCell(nn.Module):
         output_gate = torch.sigmoid(torch.mm(input_cat, self.weight_o) + self.bias_o)
         #output_gate = torch.sigmoid(output_gate)
 
-        candidate_memory = torch.tanh(torch.mm(input_cat, self.weight_meminput) + self.bias_meminput)
-        #candidate_memory = torch.tanh(candidate_memory)
+
+        candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
+        candidate_mem = torch.clone(candidate_memory)
+        candidate_mem_tanh = torch.tanh(candidate_mem)
 
         print("forget:    ", forget_gate.shape)
         print("state_old: ", state_old.shape)
         print("state_old_orig: ", state_old.shape)
 
-        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)
+        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_mem_tanh)
         #memory_cell_tanh = torch.tanh(memory_cell)
         m_cell = torch.clone(memory_cell)
 
