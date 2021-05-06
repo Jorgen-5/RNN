@@ -508,7 +508,7 @@ class LSTMCell(nn.Module):
 
         #print("Memory shape: ", memory_cell_tanh.shape)
 
-        state_new = torch.cat((torch.mul(output_gate, torch.tanh(memory_cell)), memory_cell_tanh), dim=1)
+        state_new = torch.cat((torch.mul(output_gate, torch.tanh(memory_cell)), memory_cell), dim=1)
 
         #state_new = torch.cat((hidden_state_update, memory_cell_tanh), dim=1)
 
