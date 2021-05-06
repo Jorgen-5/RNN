@@ -470,6 +470,12 @@ class LSTMCell(nn.Module):
             state_new: The updated hidden state of the recurrent cell. Shape [batch_size, hidden_state_sizes]
 
         """
+
+        print("x:         ", x.shape)
+        print("state_old: ", state_old.shape)
+        print()
+
+
         # TODO:
         input_cat = torch.cat((x, state_old), dim=1)
 
