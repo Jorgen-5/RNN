@@ -252,7 +252,7 @@ class RNN(nn.Module):
             #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers):
-                updatedstate[layer, :] = self.cells[layer](lvl0input, updatedstate[layer-1,:])
+                updatedstate[layer, :] = self.cells[layer].forward(lvl0input, updatedstate[layer-1,:])
 
             #print("Updated_state: ", updatedstate.shape)
 
@@ -473,7 +473,6 @@ class LSTMCell(nn.Module):
         #print("x:         ", x.shape)
         #print("state_old: ", state_old.shape)
         #print()
-
 
         # TODO:
         input_cat = torch.cat((x, state_old), dim=1)
