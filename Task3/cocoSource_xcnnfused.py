@@ -198,9 +198,9 @@ class RNN(nn.Module):
         # Your task is to create a list (self.cells) of type "nn.ModuleList" and populated it with cells of type "self.cell_type" - depending on the number of rnn layers
 
         if cell_type == 'GRU':
-            self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size) for i in range(self.num_rnn_layers-1)])
+            self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size) for i in range(self.num_rnn_layers)])
         elif cell_type == 'LSTM':
-            self.cells = nn.ModuleList([LSTMCell(hidden_state_size=self.hidden_state_size, input_size=input_size) for i in range(self.num_rnn_layers-1)])
+            self.cells = nn.ModuleList([LSTMCell(hidden_state_size=self.hidden_state_size, input_size=input_size) for i in range(self.num_rnn_layers)])
 
         return
 
