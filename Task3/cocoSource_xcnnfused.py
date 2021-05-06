@@ -249,13 +249,13 @@ class RNN(nn.Module):
             # see the simplified rnn for the one layer version
 
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
-            print("Current shape: ", current_state.shape)
+            #print("Current shape: ", current_state.shape)
             updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers - 1):
                 updatedstate[layer, :] = self.cells[layer](lvl0input, updatedstate[layer-1,:])
 
-            print("Updated_state: ", updatedstate.shape)
+            #print("Updated_state: ", updatedstate.shape)
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size])
 
@@ -473,17 +473,17 @@ class LSTMCell(nn.Module):
 
         """
 
-        print("x:         ", x.shape)
-        print("state_old: ", state_old.shape)
-        print()
+        #print("x:         ", x.shape)
+        #print("state_old: ", state_old.shape)
+        #print()
 
 
         # TODO:
         input_cat = torch.cat((x, state_old), dim=1)
 
-        print("input_cat: ", input_cat.shape)
-        print("weight_i : ", self.weight_i.shape)
-        print("bias_i:    ", self.bias_i.shape)
+        #print("input_cat: ", input_cat.shape)
+        #print("weight_i : ", self.weight_i.shape)
+        #print("bias_i:    ", self.bias_i.shape)
 
         input_gate = torch.mm(input_cat, self.weight_i) + self.bias_i
         input_gate = torch.sigmoid(input_gate)
@@ -497,20 +497,20 @@ class LSTMCell(nn.Module):
         candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
         candidate_memory = torch.tanh(candidate_memory)
 
-        print("forget:    ", forget_gate.shape)
-        print("state_old: ", state_old.shape)
-        print("state_old_orig: ", state_old.shape)
+        #print("forget:    ", forget_gate.shape)
+        #print("state_old: ", state_old.shape)
+        #print("state_old_orig: ", state_old.shape)
 
         memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)
         memory_cell_tanh = torch.tanh(memory_cell)
 
-        print("Memory shape: ", memory_cell_tanh.shape)
+        #print("Memory shape: ", memory_cell_tanh.shape)
 
         hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
         state_new = torch.cat((hidden_state_update, memory_cell_tanh), dim=1)
 
-        print("state_new:  ", state_new.shape)
-        print("")
+        #print("state_new:  ", state_new.shape)
+        #print("")
         return state_new
 
 
