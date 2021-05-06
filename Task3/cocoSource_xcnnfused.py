@@ -249,7 +249,7 @@ class RNN(nn.Module):
             # see the simplified rnn for the one layer version
 
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
-            print(current_state)
+            print("Current shape: ", current_state.shape)
             updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers - 1):
