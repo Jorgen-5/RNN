@@ -475,16 +475,16 @@ class LSTMCell(nn.Module):
         """
 
 
-        print("x:         ", x.shape)
-        print("state_old: ", state_old.shape)
-        print()
+        #print("x:         ", x.shape)
+        #print("state_old: ", state_old.shape)
+        #print()
 
         # TODO:
         input_cat = torch.cat((x, state_old), dim=1)
 
-        print("input_cat: ", input_cat.shape)
-        print("weight_i : ", self.weight_i.shape)
-        print("bias_i:    ", self.bias_i.shape)
+        #print("input_cat: ", input_cat.shape)
+        #print("weight_i : ", self.weight_i.shape)
+        #print("bias_i:    ", self.bias_i.shape)
 
         input_gate = torch.sigmoid(torch.mm(input_cat, self.weight_i) + self.bias_i)
         #input_gate = torch.sigmoid(input_gate)
@@ -499,9 +499,9 @@ class LSTMCell(nn.Module):
         candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
         candidate_mem_tanh = torch.tanh(candidate_memory.clone())
 
-        print("forget:    ", forget_gate.shape)
-        print("state_old: ", state_old.shape)
-        print("state_old_orig: ", state_old.shape)
+        #print("forget:    ", forget_gate.shape)
+        #print("state_old: ", state_old.shape)
+        #print("state_old_orig: ", state_old.shape)
 
         memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_mem_tanh)
 
@@ -513,9 +513,8 @@ class LSTMCell(nn.Module):
 
         #state_new = torch.cat((hidden_state_update, memory_cell_tanh), dim=1)
 
-        print("state_new:  ", state_new.shape)
-        print("")
-
+        #print("state_new:  ", state_new.shape)
+        #print("")
 
         return state_new
 
