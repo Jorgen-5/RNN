@@ -251,7 +251,7 @@ class RNN(nn.Module):
             #print("Current shape: ", current_state.shape)
             #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
-            for layer in range(self.num_rnn_layers-1):
+            for layer in range(self.num_rnn_layers):
                 print(layer)
                 updatedstate[layer, :] = self.cells[layer](lvl0input, updatedstate[layer-1,:])
 
