@@ -258,12 +258,13 @@ class RNN(nn.Module):
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size])
 
+            print("log: ", logitskk.shape)
+
             tokens = torch.argmax(logitskk, dim=1)
             logits_series.append(logitskk)
 
             current_state = updatedstate
 
-            print("hh")
 
             if kk < seqLen - 1:
                 if is_train == True:
