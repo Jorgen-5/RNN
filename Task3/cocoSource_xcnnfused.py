@@ -467,7 +467,8 @@ class LSTMCell(nn.Module):
         print("weight_i : ", self.weight_i[:,:self.hidden_state_size].shape)
 
 
-        input_gate = torch.mm(input_cat, self.weight_i[:,:self.hidden_state_size]) + self.bias_i
+        input_gate = torch.mm(input_cat, self.weight_i[:,:self.hidden_state_size])
+        + self.bias_i
         input_gate = torch.sigmoid(input_gate)
 
         forget_gate = torch.mm(input_cat, self.weight_f[:,:self.hidden_state_size]) + self.bias_f
