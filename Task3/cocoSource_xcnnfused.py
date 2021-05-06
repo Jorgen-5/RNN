@@ -263,6 +263,8 @@ class RNN(nn.Module):
 
             current_state = updatedstate
 
+            print("hh")
+
             if kk < seqLen - 1:
                 if is_train == True:
                     tokens_vector = embed_input_vec[:, kk + 1, :]
