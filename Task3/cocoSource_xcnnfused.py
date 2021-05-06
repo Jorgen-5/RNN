@@ -476,6 +476,7 @@ class LSTMCell(nn.Module):
 
         """
 
+        """
         print("x:         ", x.shape)
         print("state_old: ", state_old.shape)
         print()
@@ -516,6 +517,18 @@ class LSTMCell(nn.Module):
 
         print("state_new:  ", state_new.shape)
         print("")
+
+        """
+
+        # TODO FJERN
+        x2 = torch.cat((x, state_old), dim=1)
+        input_gate = torch.sigmoid(torch.mm(x2, self.weight_i) + self.bias_i)
+        forget_gate = torch.sigmoid(torch.mm(x2, self.weight_f) + self.bias_f)
+        output_gate = torch.sigmoid(torch.mm(x2, self.weight_o) + self.bias_o)
+        candidate_memory = torch.tanh(torch.mm(x2, self.weight_meminput) + self.bias_meminput)
+        memory_cell_update = torch.mul(forget_gate, state_old[:,self.hidden_state_sizes:]) + \
+                             torch.mul(input_gate,candidate_memory)
+        state_new = torch.cat((torch.mul(output_gate, torch.tanh(memory_cell_update)), memory_cell_update), dim=1)
 
         return state_new
 
