@@ -135,7 +135,7 @@ class RNN_onelayer_simplified(nn.Module):
             # note that      current_state has 3 dims ( ...len(current_state.shape)==3... ) with first dimension having only 1 element, while the rnn cell needs a state with 2 dims as input
 
             current_state = torch.squeeze(current_state, dim=0)
-            updatedstate[0, :] = self.cells[0](lvl0input, current_state) 
+            updatedstate[0, :] = self.cells[0](lvl0input, current_state)
             # RNN cell is used here #uses lvl0input and the hiddenstate
 
             # for a 2 layer rnn you do this for every kk, but you do this when you are *at the last layer of the rnn* for the current sequence index kk
@@ -187,8 +187,7 @@ class RNN(nn.Module):
 
         # TODO
         # Your task is to create a list (self.cells) of type "nn.ModuleList" and populated it with cells of type "self.cell_type" - depending on the number of rnn layers
-        self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=self.input_size),
-                                    GRUCell(hidden_state_size=self.hidden_state_size, input_size=self.input_size)])
+        self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size) for i in range(self.num_rnn_layers)])
 
         return
 
