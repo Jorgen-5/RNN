@@ -324,10 +324,10 @@ class GRUCell(nn.Module):
 
         """
 
-        #print("Weight_r: ", self.weight_r.shape)
-        #print("x: ", x.shape)
-        #print("state_old: ", state_old.shape)
-        #print("bias_r: ", self.bias_r.shape)
+        print("Weight_r: ", self.weight_r.shape)
+        print("x: ", x.shape)
+        print("state_old: ", state_old.shape)
+        print("bias_r: ", self.bias_r.shape)
 
         input_cat = torch.cat((x, state_old), dim=1)
         reset = torch.mm(input_cat, self.weight_r) + self.bias_r
