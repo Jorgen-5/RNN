@@ -253,7 +253,7 @@ class RNN(nn.Module):
             updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers - 1):
-                updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
+                updatedstate[layer, :] = self.cells[layer](lvl0input, updatedstate[layer-1,:])
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
 
