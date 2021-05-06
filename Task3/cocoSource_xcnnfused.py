@@ -497,6 +497,7 @@ class LSTMCell(nn.Module):
 
         hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
         state_new = hidden_state_update
+        print("state_new:  ", state_new.shape)
         return state_new
 
 
