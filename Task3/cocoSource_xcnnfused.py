@@ -35,7 +35,7 @@ class imageCaptionModel(nn.Module):
         self.inputlayer = nn.Sequential(
             nn.Dropout(p=0.25),
             nn.Linear(self.number_of_cnn_features, self.nnmapsize),
-            nn.LeakyReLU(0.1)
+            nn.LeakyReLU()
         )
 
         self.simplifiedrnn = False
@@ -81,18 +81,16 @@ class imageCaptionModel(nn.Module):
         imgfeat_processed = self.inputlayer(cnn_features)
 
 
-        if self.cell_type != 'LSTM':
-            if current_hidden_state is None:
-                initial_hidden_state = torch.zeros(self.num_rnn_layers, cnn_features.shape[0], self.hidden_state_sizes,
+        if current_hidden_state is None:
+            if self.cell_type == 'LSTM':
+                initial_hidden_state = torch.zeros((self.num_rnn_layers, cnn_features.shape[0], 2*self.hidden_state_sizes),
                                                device=torch.device('cuda'))
             else:
-                initial_hidden_state = current_hidden_state
+
+                initial_hidden_state = torch.zeros((self.num_rnn_layers, cnn_features.shape[0], self.hidden_state_sizes),
+                                               device=torch.device('cuda'))
         else:
-            if current_hidden_state is None:
-                initial_hidden_state = torch.zeros(self.num_rnn_layers, cnn_features.shape[0], 2*self.hidden_state_sizes,
-                                               device=torch.device('cuda'))
-            else:
-                initial_hidden_state = current_hidden_state
+            initial_hidden_state = current_hidden_state
 
 
         # use self.rnn to calculate "logits" and "current_hidden_state"
@@ -252,7 +250,7 @@ class RNN(nn.Module):
             #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers):
-                updatedstate[layer, :] = self.cells[layer].forward(lvl0input, updatedstate[layer-1,:])
+                updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
 
 
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
