@@ -80,12 +80,19 @@ class imageCaptionModel(nn.Module):
 
         imgfeat_processed = self.inputlayer(cnn_features)
 
-        if current_hidden_state is None:
-            initial_hidden_state = torch.zeros(self.num_rnn_layers, cnn_features.shape[0], self.hidden_state_sizes,
-                                           device=torch.device('cuda'))
-        else:
-            initial_hidden_state = current_hidden_state
 
+        if self.cell_type != 'LSTM':
+            if current_hidden_state is None:
+                initial_hidden_state = torch.zeros(self.num_rnn_layers, cnn_features.shape[0], self.hidden_state_sizes,
+                                               device=torch.device('cuda'))
+            else:
+                initial_hidden_state = current_hidden_state
+        else:
+            if current_hidden_state is None:
+                initial_hidden_state = torch.zeros(self.num_rnn_layers, cnn_features.shape[0], 2*self.hidden_state_sizes,
+                                               device=torch.device('cuda'))
+            else:
+                initial_hidden_state = current_hidden_state
 
 
 
