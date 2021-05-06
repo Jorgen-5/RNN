@@ -255,7 +255,7 @@ class RNN(nn.Module):
 
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
 
-            print("out: ", out.shape)
+            #print("out: ", out.shape)
 
 
             logitskk = outputLayer(out)
