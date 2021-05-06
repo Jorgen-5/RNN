@@ -479,7 +479,7 @@ class LSTMCell(nn.Module):
         candidate_memory = torch.mm(input_cat, self.weight_meminput[:,self.hidden_state_size:]) + self.bias_meminput[:,:self.hidden_state_size]
         candidate_memory = torch.tanh(candidate_memory)
 
-        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)
+        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) #+ torch.mul(input_gate, candidate_memory)
         memory_cell_tanh = torch.tanh(memory_cell)
 
         hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
