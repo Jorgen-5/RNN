@@ -35,7 +35,7 @@ class imageCaptionModel(nn.Module):
         self.inputlayer = nn.Sequential(
             nn.Dropout(p=0.25),
             nn.Linear(self.number_of_cnn_features, self.nnmapsize),
-            nn.LeakyReLU(0.1, inplace=False)
+            nn.LeakyReLU(0.1)
         )
 
         self.simplifiedrnn = False
@@ -258,6 +258,7 @@ class RNN(nn.Module):
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
 
             print("out: ", out.shape)
+
 
             logitskk = outputLayer(out)
 
