@@ -441,20 +441,20 @@ class LSTMCell(nn.Module):
 
         # TODO:
         self.weight_f = nn.Parameter(
-            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
-        self.bias_f = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
+            torch.randn(input_size + 2hidden_state_size, hidden_state_size) / np.sqrt(input_size + 2*hidden_state_size))
+        self.bias_f = nn.Parameter(torch.zeros(1, hidden_state_size))
 
         self.weight_i = nn.Parameter(
-            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
-        self.bias_i = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
+            torch.randn(input_size + 2*hidden_state_size, hidden_state_size) / np.sqrt(input_size + 2*hidden_state_size))
+        self.bias_i = nn.Parameter(torch.zeros(1, hidden_state_size))
 
         self.weight_meminput = nn.Parameter(
-            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
-        self.bias_meminput = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
+            torch.randn(input_size + 2*hidden_state_size, hidden_state_size) / np.sqrt(input_size + 2*hidden_state_size))
+        self.bias_meminput = nn.Parameter(torch.zeros(1, hidden_state_size))
 
         self.weight_o = nn.Parameter(
-            torch.randn(input_size + hidden_state_size, 2*hidden_state_size) / np.sqrt(input_size + hidden_state_size))
-        self.bias_o = nn.Parameter(torch.zeros(1, 2*hidden_state_size))
+            torch.randn(input_size + 2*hidden_state_size, hidden_state_size) / np.sqrt(input_size + 2*hidden_state_size))
+        self.bias_o = nn.Parameter(torch.zeros(1, hidden_state_size))
 
         return
 
@@ -469,29 +469,29 @@ class LSTMCell(nn.Module):
 
         """
         # TODO:
-        input_cat = torch.cat((x, state_old[:,:self.hidden_state_size]), dim=1)
+        input_cat = torch.cat((x, state_old), dim=1)
 
         print("input_cat: ", input_cat.shape)
-        print("weight_i : ", self.weight_i[:,:self.hidden_state_size].shape)
+        print("weight_i : ", self.weight_i.shape)
         print("bias_i:    ", self.bias_i.shape)
 
-        input_gate = torch.mm(input_cat, self.weight_i[:,:self.hidden_state_size]) + self.bias_i[:,:self.hidden_state_size]
+        input_gate = torch.mm(input_cat, self.weight_i) + self.bias_i
         input_gate = torch.sigmoid(input_gate)
 
-        forget_gate = torch.mm(input_cat, self.weight_f[:,:self.hidden_state_size]) + self.bias_f[:,:self.hidden_state_size]
+        forget_gate = torch.mm(input_cat, self.weight_f) + self.bias_f
         forget_gate = torch.sigmoid(forget_gate)
 
-        output_gate = torch.mm(input_cat, self.weight_o[:,:self.hidden_state_size]) + self.bias_o[:,:self.hidden_state_size]
+        output_gate = torch.mm(input_cat, self.weight_o) + self.bias_o
         output_gate = torch.sigmoid(output_gate)
 
-        candidate_memory = torch.mm(input_cat, self.weight_meminput[:,self.hidden_state_size:]) + self.bias_meminput[:,:self.hidden_state_size]
+        candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
         candidate_memory = torch.tanh(candidate_memory)
 
         print("forget:    ", forget_gate.shape)
-        print("state_old: ", state_old[:,self.hidden_state_size:].shape)
-        print("state_old_orig: ", state_old.shape )
+        print("state_old: ", state_old.shape)
+        print("state_old_orig: ", state_old.shape)
 
-        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) #+ torch.mul(input_gate, candidate_memory)
+        memory_cell = torch.mul(forget_gate, state_old) #+ torch.mul(input_gate, candidate_memory)
         memory_cell_tanh = torch.tanh(memory_cell)
 
         hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
