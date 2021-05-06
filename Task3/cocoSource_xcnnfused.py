@@ -475,44 +475,46 @@ class LSTMCell(nn.Module):
             state_new: The updated hidden state of the recurrent cell. Shape [batch_size, hidden_state_sizes]
 
         """
+        with torch.autograd.set_detect_anomaly(True):
 
-        print("x:         ", x.shape)
-        print("state_old: ", state_old.shape)
-        print()
+            print("x:         ", x.shape)
+            print("state_old: ", state_old.shape)
+            print()
 
-        # TODO:
-        input_cat = torch.cat((x, state_old), dim=1)
+            # TODO:
+            input_cat = torch.cat((x, state_old), dim=1)
 
-        print("input_cat: ", input_cat.shape)
-        print("weight_i : ", self.weight_i.shape)
-        print("bias_i:    ", self.bias_i.shape)
+            print("input_cat: ", input_cat.shape)
+            print("weight_i : ", self.weight_i.shape)
+            print("bias_i:    ", self.bias_i.shape)
 
-        input_gate = torch.mm(input_cat, self.weight_i) + self.bias_i
-        input_gate = torch.sigmoid(input_gate)
+            input_gate = torch.mm(input_cat, self.weight_i) + self.bias_i
+            input_gate = torch.sigmoid(input_gate)
 
-        forget_gate = torch.mm(input_cat, self.weight_f) + self.bias_f
-        forget_gate = torch.sigmoid(forget_gate)
+            forget_gate = torch.mm(input_cat, self.weight_f) + self.bias_f
+            forget_gate = torch.sigmoid(forget_gate)
 
-        output_gate = torch.mm(input_cat, self.weight_o) + self.bias_o
-        output_gate = torch.sigmoid(output_gate)
+            output_gate = torch.mm(input_cat, self.weight_o) + self.bias_o
+            output_gate = torch.sigmoid(output_gate)
 
-        candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
-        candidate_memory = torch.tanh(candidate_memory)
+            candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
+            candidate_memory = torch.tanh(candidate_memory)
 
-        print("forget:    ", forget_gate.shape)
-        print("state_old: ", state_old.shape)
-        print("state_old_orig: ", state_old.shape)
+            print("forget:    ", forget_gate.shape)
+            print("state_old: ", state_old.shape)
+            print("state_old_orig: ", state_old.shape)
 
-        memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)
-        memory_cell_tanh = torch.tanh(memory_cell)
+            memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)
+            memory_cell_tanh = torch.tanh(memory_cell)
 
-        print("Memory shape: ", memory_cell_tanh.shape)
+            print("Memory shape: ", memory_cell_tanh.shape)
 
-        hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
-        state_new = torch.cat((hidden_state_update, memory_cell_tanh), dim=1)
+            hidden_state_update = torch.mul(output_gate, memory_cell_tanh)
+            state_new = torch.cat((hidden_state_update, memory_cell_tanh), dim=1)
 
-        print("state_new:  ", state_new.shape)
-        print("")
+            print("state_new:  ", state_new.shape)
+            print("")
+            
         return state_new
 
 
