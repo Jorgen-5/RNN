@@ -235,10 +235,10 @@ class RNN(nn.Module):
             # see the simplified rnn for the one layer version
 
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
-            updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
+            #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
-            for layer in range(self.num_rnn_layers - 1):
-                updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
+            for layer in range(self.num_rnn_layers):
+                updatedstate[layer, :] = self.cells[layer](lvl0input, current_state[layer, :, :])
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
 
