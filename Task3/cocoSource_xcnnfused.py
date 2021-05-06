@@ -191,7 +191,7 @@ class RNN(nn.Module):
 
         if cell_type == 'GRU':
             self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size_list[i]) for i in range(self.num_rnn_layers-1)])
-        else if cell_type == 'LSTM':
+        elif cell_type == 'LSTM':
             self.cells = nn.ModuleList([LSTMCell(hidden_state_size=self.hidden_state_size, input_size=input_size_list[i]) for i in range(self.num_rnn_layers-1)])
 
         return
