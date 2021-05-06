@@ -441,7 +441,7 @@ class LSTMCell(nn.Module):
 
         # TODO:
         self.weight_f = nn.Parameter(
-            torch.randn(input_size + 2hidden_state_size, hidden_state_size) / np.sqrt(input_size + 2*hidden_state_size))
+            torch.randn(input_size + 2*hidden_state_size, hidden_state_size) / np.sqrt(input_size + 2*hidden_state_size))
         self.bias_f = nn.Parameter(torch.zeros(1, hidden_state_size))
 
         self.weight_i = nn.Parameter(
