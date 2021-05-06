@@ -496,7 +496,7 @@ class LSTMCell(nn.Module):
         output_gate = torch.sigmoid(torch.mm(input_cat, self.weight_o) + self.bias_o)
         #output_gate = torch.sigmoid(output_gate)
 
-        candidate_memory = torch.tanh(torch.mm(input_cat, self.weight_meminput) + self.bias_meminput)
+        candidate_memory = torch.clone(torch.tanh(torch.mm(input_cat, self.weight_meminput) + self.bias_meminput))
         #candidate_memory = torch.tanh(candidate_memory)
 
         print("forget:    ", forget_gate.shape)
