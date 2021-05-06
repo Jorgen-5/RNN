@@ -255,7 +255,7 @@ class RNN(nn.Module):
             for layer in range(self.num_rnn_layers - 1):
                 updatedstate[layer, :] = self.cells[layer](lvl0input, updatedstate[layer-1,:])
 
-            logitskk = outputLayer(updatedstate[self.num_rnn_layers, :])
+            logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
 
             tokens = torch.argmax(logitskk, dim=1)
             logits_series.append(logitskk)
