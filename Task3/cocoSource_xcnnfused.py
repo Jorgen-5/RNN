@@ -503,7 +503,7 @@ class LSTMCell(nn.Module):
         print("state_old: ", state_old.shape)
         print("state_old_orig: ", state_old.shape)
 
-        memory_cell_tanh = torch.tanh(torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory))
+        memory_cell_tanh = torch.clone(torch.tanh(torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_memory)))
         #memory_cell_tanh = torch.tanh(memory_cell)
 
         print("Memory shape: ", memory_cell_tanh.shape)
