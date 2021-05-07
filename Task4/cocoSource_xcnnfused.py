@@ -269,7 +269,7 @@ class RNN(nn.Module):
                 if layer == 0:
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
                 if layer > 0:
-                    attention = torch.cat((current_state[layer-1,:], attentionlayer(current_state[layer-1,:])), dim=1)
+                    attention = torch.cat((attentionlayer(current_state[layer-1,:], current_state[layer-1,:])), dim=1)
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, attention)
 
 
@@ -494,6 +494,7 @@ class LSTMCell(nn.Module):
         """
 
 
+
         print("x:         ", x.shape)
         print("state_old: ", state_old.shape)
         print()
@@ -528,7 +529,7 @@ class LSTMCell(nn.Module):
         print("candidate_mem_tanh: ", candidate_mem_tanh.shape)
 
 
-        print("This state: ", state_old[:,self.hidden_state_size:].shape)
+        print("This state: ", state_old[:,self.hidden_state_size:self.hidden_state_size+10].shape)
 
         memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_mem_tanh)
 
