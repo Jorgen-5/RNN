@@ -34,13 +34,18 @@ class imageCaptionModel(nn.Module):
         self.nnmapsize = 512  # the output size for the image features after the processing via self.inputLayer
         self.inputlayer = nn.Sequential(
             nn.Dropout(p=0.25),
-            nn.Linear(self.number_of_cnn_features, self.nnmapsize),
+            nn.conv1d(self.number_of_cnn_features,self.hidden_state_size),
+            nn.MaxPool1d(1),
+            nn.BatchNorm1d(self.hidden_state_size),
             nn.LeakyReLU()
         )
 
         self.attentionlayer = nn.Sequential(
-            nn.Linear(self.hidden_state_size)
-            
+            nn.Dropout(p=0.25),
+            nn.Linear(2*self.hidden_state_size, 50),
+            nn.LeakyReLU(),
+            nn.Linear(50, 10),
+            nn.softmax()
         )
 
         self.simplifiedrnn = False
@@ -175,7 +180,7 @@ class RNN_onelayer_simplified(nn.Module):
 
 
 class RNN(nn.Module):
-    def __init__(self, input_size, hidden_state_size, num_rnn_layers, cell_type='GRU'):
+    def __init__(self, input_size, hidden_state_size, num_rnn_layers, last_layer_size, cell_type='GRU'):
         super(RNN, self).__init__()
         """
         Args:
@@ -191,9 +196,10 @@ class RNN(nn.Module):
         self.hidden_state_size = hidden_state_size
         self.num_rnn_layers = num_rnn_layers
         self.cell_type = cell_type
+        self.last_layer_size = last_layer_size
 
         # TODO
-        input_size_list = [input_size]
+        input_size_list = [input_size, last_layer_size]
 
         # input_size_list should have a length equal to the number of layers and input_size_list[i] should contain the input size for layer i
 
@@ -255,13 +261,18 @@ class RNN(nn.Module):
             #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers):
-                updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
+                if layer == 0:
+                    updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
+                if layer > 0:
+                    attention = attentionlayer(current_state[layer-1,:])
+                    updatedstate[layer, :] = self.cells[layer].forward(lvl0input, attention)
+
+
 
 
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
 
             #print("out: ", out.shape)
-
 
             logitskk = outputLayer(out)
 
