@@ -39,17 +39,16 @@ class SaverRestorer():
 
     def restore(self, model):
         restore_dir = ''
-        paths = self.save_dir #glob.glob(self.save_dir + '*')
-        print("path: " , paths)
+        paths = glob.glob(self.save_dir + '*')
         if self.modelParam['restoreModelLast'] == 1 and self.modelParam['restoreModelBest'] != 1:
             for path in paths:
                 if 'last_epoch' in path:
                     restore_dir = path
         elif self.modelParam['restoreModelLast'] != 1 and self.modelParam['restoreModelBest'] == 1:
-            print("path2: ", paths)
             for path in paths:
                 if 'best_epoch' in path:
                     restore_dir = path
+        print(restore_dir)
         if restore_dir!='':
             checkpoint = torch.load(restore_dir, map_location=self.device)
             model.net.load_state_dict(checkpoint['model_state_dict'])
