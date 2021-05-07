@@ -259,6 +259,8 @@ class RNN(nn.Module):
             # if you are at the last layer, then produce logitskk, tokens , run a logits_series.append(logitskk),
             # see the simplified rnn for the one layer version
 
+            print("baseimgfeat: ", baseimgfeat.shape)
+
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
             #print("Current shape: ", current_state.shape)
             #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
@@ -269,8 +271,6 @@ class RNN(nn.Module):
                 if layer > 0:
                     attention = attentionlayer(current_state[layer-1,:])
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, attention)
-
-
 
 
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
