@@ -37,7 +37,7 @@ class imageCaptionModel(nn.Module):
         self.inputlayer = nn.Sequential(
             nn.MaxPool1d(1),
             nn.Dropout(p=0.25),
-            nn.Conv1d(self.number_of_cnn_features, self.nnmapsize,kernel_size=1),
+            nn.Conv1d(self.number_of_cnn_features, self.nnmapsize, kernel_size=1),
             nn.BatchNorm1d(self.nnmapsize),
             nn.LeakyReLU()
         )
@@ -91,7 +91,7 @@ class imageCaptionModel(nn.Module):
         print("cnn shape: ", cnn_features.shape)
 
 
-        imgfeat_processed = self.inputlayer(cnn_features)
+        imgfeat_processed = print(self.inputlayer(cnn_features))
 
 
         if current_hidden_state is None:
