@@ -88,7 +88,7 @@ class imageCaptionModel(nn.Module):
         # Get "initial_hidden_state" shape[num_rnn_layers, batch_size, hidden_state_sizes].
         # Remember that each rnn cell needs its own initial state.
 
-        print("cnn shape: ", cnn_features.shape)
+        #print("cnn shape: ", cnn_features.shape)
 
 
         imgfeat_processed = torch.squeeze(self.inputlayer(cnn_features.transpose(1,2)),2)
