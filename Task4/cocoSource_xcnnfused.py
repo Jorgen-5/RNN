@@ -33,6 +33,7 @@ class imageCaptionModel(nn.Module):
 
         self.outputlayer = nn.Linear(self.hidden_state_sizes, self.vocabulary_size)
         self.nnmapsize = 512  # the output size for the image features after the processing via self.inputLayer
+
         self.inputlayer = nn.Sequential(
             nn.MaxPool1d(1),
             nn.Dropout(p=0.25),
@@ -87,7 +88,8 @@ class imageCaptionModel(nn.Module):
         # Get "initial_hidden_state" shape[num_rnn_layers, batch_size, hidden_state_sizes].
         # Remember that each rnn cell needs its own initial state.
 
-        # print("cnn shape: ", cnn_features.shape)
+        print("cnn shape: ", cnn_features.shape)
+
 
         imgfeat_processed = self.inputlayer(cnn_features)
 
