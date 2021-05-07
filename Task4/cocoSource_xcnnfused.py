@@ -91,7 +91,7 @@ class imageCaptionModel(nn.Module):
         print("cnn shape: ", cnn_features.shape)
 
 
-        imgfeat_processed = print(self.inputlayer(cnn_features))
+        imgfeat_processed = self.inputlayer(cnn_features)
 
 
         if current_hidden_state is None:
