@@ -27,7 +27,7 @@ class imageCaptionModel(nn.Module):
         self.hidden_state_sizes = config['hidden_state_sizes']
         self.num_rnn_layers = config['num_rnn_layers']
         self.cell_type = config['cellType']
-        self.last_layer_size = 10
+        self.last_layer_size = 10 + self.hidden_state_size
 
         self.Embedding = nn.Embedding(self.vocabulary_size, self.embedding_size)
 
@@ -269,7 +269,7 @@ class RNN(nn.Module):
                 if layer == 0:
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
                 if layer > 0:
-                    attention = attentionlayer(current_state[layer-1,:])
+                    attention = torch.cat((current_state[layer-1,:], attentionlayer(current_state[layer-1,:]), dim=1)
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, attention)
 
 
