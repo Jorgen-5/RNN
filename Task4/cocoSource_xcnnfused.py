@@ -107,7 +107,7 @@ class imageCaptionModel(nn.Module):
 
 
         # use self.rnn to calculate "logits" and "current_hidden_state"
-        logits, current_hidden_state_out = self.rnn(xTokens, imgfeat_processed, initial_hidden_state, self.outputlayer,
+        logits, current_hidden_state_out = self.rnn(xTokens, imgfeat_processed, initial_hidden_state, self.outputlayer, self.attentionlayer,
                                                     self.Embedding, is_train)
 
         return logits, current_hidden_state_out
@@ -216,7 +216,7 @@ class RNN(nn.Module):
 
         return
 
-    def forward(self, xTokens, baseimgfeat, initial_hidden_state, outputLayer, Embedding, is_train=True):
+    def forward(self, xTokens, baseimgfeat, initial_hidden_state, outputLayer, attentionlayer, Embedding, is_train=True):
         """
         Args:
             xTokens:        shape [batch_size, truncated_backprop_length]
