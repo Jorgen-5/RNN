@@ -38,6 +38,7 @@ class SaverRestorer():
 
 
     def restore(self, model):
+        print(self.save_dir)
         restore_dir = ''
         paths = glob.glob(self.save_dir + '*')
         print("path: " , paths)
