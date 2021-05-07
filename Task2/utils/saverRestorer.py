@@ -38,9 +38,8 @@ class SaverRestorer():
 
 
     def restore(self, model):
-        print(self.save_dir)
         restore_dir = ''
-        paths = glob.glob(self.save_dir + '*')
+        paths = self.save_dir #glob.glob(self.save_dir + '*')
         print("path: " , paths)
         if self.modelParam['restoreModelLast'] == 1 and self.modelParam['restoreModelBest'] != 1:
             for path in paths:
