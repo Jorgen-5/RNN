@@ -66,7 +66,7 @@ class imageCaptionModel(nn.Module):
 
         else:
             self.rnn = RNN(input_size=self.embedding_size + self.nnmapsize, hidden_state_size=self.hidden_state_sizes,
-                           num_rnn_layers=self.num_rnn_layers, self.last_layer_size, cell_type=self.cell_type)
+                           num_rnn_layers=self.num_rnn_layers, last_layer_size=self.last_layer_size, cell_type=self.cell_type)
 
         return
 
