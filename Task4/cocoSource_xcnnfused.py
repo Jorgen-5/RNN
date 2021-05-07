@@ -505,7 +505,7 @@ class LSTMCell(nn.Module):
         #print("weight_i : ", self.weight_i.shape)
         #print("bias_i:    ", self.bias_i.shape)
 
-        print("Weight_i: ", self.weigth_f.shape)
+        print("Weight_i: ", self.weight_f.shape)
         print("bias_i:   ", self.bias_i.shape)
 
         input_gate = torch.sigmoid(torch.mm(input_cat, self.weight_i) + self.bias_i)
