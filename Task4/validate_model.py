@@ -33,14 +33,12 @@ def main(config, modelParam):
 
         plotImagesAndCaptions(model, modelParam, config, dataLoader)
 
-
-
     return
 
 
+########################################################################################################################
 if __name__ == '__main__':
     data_dir = '../../../../shared/IN5400/dataforall/mandatory2/data/coco/'
-
 
     #train
     modelParam = {
@@ -57,7 +55,7 @@ if __name__ == '__main__':
         'restoreModelBest': 0,
         'modeSetups': [['train', True], ['val', True]],
         'inNotebook': False,  # If running script in jupyter notebook
-        'inference': True
+        'inference': False
     }
 
     config = {
