@@ -269,7 +269,7 @@ class RNN(nn.Module):
                 if layer == 0:
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
                 if layer > 0:
-                    attention = torch.cat((attentionlayer(current_state[layer-1,:], current_state[layer-1,:])), dim=1)
+                    attention = torch.cat((attentionlayer(current_state[layer-1,:]), current_state[layer-1,:])), dim=1)
                     updatedstate[layer, :] = self.cells[layer].forward(lvl0input, attention)
 
 
