@@ -73,6 +73,7 @@ if __name__ == '__main__':
         #'featurepathstub': 'detectron2m_features' ,
         #'featurepathstub': 'detectron2cocov3_tenmfeatures' ,
         'featurepathstub': 'detectron2_lim10maxfeatures' ,
+        #'featurepathstub': 'detectron2_lim10maxfeatures' ,
         'cellType':  'LSTM' #'GRU'  # RNN or GRU or LSTM??
     }
 
