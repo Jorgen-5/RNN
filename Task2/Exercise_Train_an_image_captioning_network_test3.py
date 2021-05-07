@@ -16,7 +16,7 @@ def main(config, modelParam):
     saveRestorer = SaverRestorer(config, modelParam)
 
     if modelParam['inference'] == True:
-        model        = saveRestorer.restore(model)
+        model = saveRestorer.restore(model)
 
     # create your data generator
     dataLoader = DataLoaderWrapper(config, modelParam)
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         'modelsDir': 'storedModels_test/',
         'modelName': 'model_0/',  # name of your trained model
         'restoreModelLast': 0,
-        'restoreModelBest': 1,
+        'restoreModelBest': 0,
         'modeSetups': [['train', True], ['val', True]],
         'inNotebook': False,  # If running script in jupyter notebook
         'inference': True
