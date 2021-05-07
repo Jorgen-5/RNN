@@ -50,8 +50,8 @@ if __name__ == '__main__':
         'img_dir': 'loss_images_test/',
         'modelsDir': 'storedModels_test/',
         'modelName': 'model_0/',  # name of your trained model
-        'restoreModelLast': 0,
-        'restoreModelBest': 1,
+        'restoreModelLast': 1,
+        'restoreModelBest': 0,
         'modeSetups': [['train', True], ['val', True]],
         'inNotebook': False,  # If running script in jupyter notebook
         'inference': True
