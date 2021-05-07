@@ -82,5 +82,3 @@ class SaverRestorer():
                 files = glob.glob(self.save_dir+'*')
                 for f in files:
                     os.remove(f)
-
-
