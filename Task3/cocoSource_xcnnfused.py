@@ -34,8 +34,7 @@ class imageCaptionModel(nn.Module):
         self.nnmapsize = 512  # the output size for the image features after the processing via self.inputLayer
         self.inputlayer = nn.Sequential(
             nn.Dropout(p=0.25),
-            nn.conv1d(self.number_of_cnn_features, self.nnmapsize, kernel_size=1),
-            nn.batchnorm1d(self.nnmapsize)
+            nn.Linear(self.number_of_cnn_features, self.nnmapsize),
             nn.LeakyReLU()
         )
 

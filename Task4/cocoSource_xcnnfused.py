@@ -40,6 +40,7 @@ class imageCaptionModel(nn.Module):
 
         self.attentionlayer = nn.Sequential(
             nn.Linear(self.hidden_state_size)
+            
         )
 
         self.simplifiedrnn = False
@@ -498,7 +499,6 @@ class LSTMCell(nn.Module):
 
         output_gate = torch.sigmoid(torch.mm(input_cat, self.weight_o) + self.bias_o)
         #output_gate = torch.sigmoid(output_gate)
-
 
         candidate_memory = torch.mm(input_cat, self.weight_meminput) + self.bias_meminput
         candidate_mem_tanh = torch.tanh(candidate_memory.clone())
