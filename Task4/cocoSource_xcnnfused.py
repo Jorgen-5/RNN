@@ -520,6 +520,7 @@ class LSTMCell(nn.Module):
         print("forget:    ", forget_gate.shape)
         print("state_old: ", state_old.shape)
         print("state_old_orig: ", state_old.shape)
+        print("candidate_mem_tanh: ", candidate_mem_tanh.shape)
 
         memory_cell = torch.mul(forget_gate, state_old[:,self.hidden_state_size:]) + torch.mul(input_gate, candidate_mem_tanh)
 
