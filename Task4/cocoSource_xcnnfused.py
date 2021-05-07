@@ -91,7 +91,7 @@ class imageCaptionModel(nn.Module):
         print("cnn shape: ", cnn_features.shape)
 
 
-        imgfeat_processed = torch.squeeze(self.inputlayer(cnn_features.transpose(1,2)),3)
+        imgfeat_processed = torch.squeeze(self.inputlayer(cnn_features.transpose(1,2)),2)
 
 
         if current_hidden_state is None:
