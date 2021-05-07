@@ -90,9 +90,8 @@ class imageCaptionModel(nn.Module):
 
         print("cnn shape: ", cnn_features.shape)
 
-        print(cnn_features.transpose(1,2).shape)
 
-        imgfeat_processed = self.inputlayer()
+        imgfeat_processed = self.inputlayer(cnn_features)
         print(imgfeat_processed.shape)
 
 
