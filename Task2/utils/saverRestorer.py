@@ -48,7 +48,7 @@ class SaverRestorer():
             for path in paths:
                 if 'best_epoch' in path:
                     restore_dir = path
-        print(restore_dir)
+        print("Restore dir: ", restore_dir)
         if restore_dir!='':
             checkpoint = torch.load(restore_dir, map_location=self.device)
             model.net.load_state_dict(checkpoint['model_state_dict'])
