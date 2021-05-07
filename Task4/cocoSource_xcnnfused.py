@@ -38,6 +38,10 @@ class imageCaptionModel(nn.Module):
             nn.LeakyReLU()
         )
 
+        self.attentionlayer = nn.Sequential(
+            nn.Linear(self.hidden_state_size)
+        )
+
         self.simplifiedrnn = False
 
         if True == self.simplifiedrnn:
