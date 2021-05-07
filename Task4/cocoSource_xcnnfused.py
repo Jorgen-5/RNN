@@ -35,10 +35,10 @@ class imageCaptionModel(nn.Module):
         self.nnmapsize = 512  # the output size for the image features after the processing via self.inputLayer
 
         self.inputlayer = nn.Sequential(
-            nn.MaxPool1d(1),
+            #nn.MaxPool1d(1),
             nn.Dropout(p=0.25),
-            nn.Conv1d(self.number_of_cnn_features,self.hidden_state_sizes,kernel_size=1),
-            nn.BatchNorm1d(self.hidden_state_sizes),
+            nn.Conv1d(self.number_of_cnn_features, self.nnmapsize,kernel_size=1),
+            nn.BatchNorm1d(self.nnmapsize),
             nn.LeakyReLU()
         )
 
@@ -91,7 +91,7 @@ class imageCaptionModel(nn.Module):
         print("cnn shape: ", cnn_features.shape)
 
 
-        imgfeat_processed = torch.squeeze(self.inputlayer(cnn_features), dim=1)
+        imgfeat_processed = self.inputlayer(cnn_features)
 
 
         if current_hidden_state is None:
