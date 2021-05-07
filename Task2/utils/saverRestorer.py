@@ -46,7 +46,7 @@ class SaverRestorer():
                 if 'last_epoch' in path:
                     restore_dir = path
         elif self.modelParam['restoreModelLast'] != 1 and self.modelParam['restoreModelBest'] == 1:
-            print("path: ", paths)
+            print("path2: ", paths)
             for path in paths:
                 if 'best_epoch' in path:
                     restore_dir = path
