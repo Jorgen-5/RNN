@@ -239,7 +239,7 @@ class RNN(nn.Module):
             updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(1,self.num_rnn_layers):
-                print("layer: ",layer)
+                #print("layer: ",layer)
                 updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
@@ -326,10 +326,10 @@ class GRUCell(nn.Module):
 
         """
 
-        print("Weight_r: ", self.weight_r.shape)
-        print("x: ", x.shape)
-        print("state_old: ", state_old.shape)
-        print("bias_r: ", self.bias_r.shape)
+        #print("Weight_r: ", self.weight_r.shape)
+        #print("x: ", x.shape)
+        #print("state_old: ", state_old.shape)
+        #print("bias_r: ", self.bias_r.shape)
 
         input_cat = torch.cat((x, state_old), dim=1)
         reset = torch.mm(input_cat, self.weight_r) + self.bias_r
