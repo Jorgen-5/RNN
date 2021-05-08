@@ -183,12 +183,12 @@ class RNN(nn.Module):
         self.cell_type = cell_type
 
         # TODO
-        input_size_list = []
+        input_size_list = [self.input_size, self.hidden_state_size]
         # input_size_list should have a length equal to the number of layers and input_size_list[i] should contain the input size for layer i
 
         # TODO
         # Your task is to create a list (self.cells) of type "nn.ModuleList" and populated it with cells of type "self.cell_type" - depending on the number of rnn layers
-        self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size) for i in range(self.num_rnn_layers)])
+        self.cells = nn.ModuleList([GRUCell(hidden_state_size=self.hidden_state_size, input_size=input_size_list[i]) for i in range(self.num_rnn_layers)])
 
         return
 
@@ -238,7 +238,8 @@ class RNN(nn.Module):
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
             updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
-            for layer in range(self.num_rnn_layers):
+            for layer in range(1,self.num_rnn_layers):
+                print("layer: ",layer)
                 updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
