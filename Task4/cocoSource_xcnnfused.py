@@ -2,6 +2,9 @@ from torch import nn
 import torch.nn.functional as F
 import torch
 import numpy as np
+torch.manual_seed(0)
+
+
 
 
 ######################################################################################################################

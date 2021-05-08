@@ -2,6 +2,7 @@ from torch import nn
 import torch.nn.functional as F
 import torch
 import numpy as np
+torch.manual_seed(0)
 
 
 ######################################################################################################################
@@ -235,10 +236,10 @@ class RNN(nn.Module):
             # see the simplified rnn for the one layer version
 
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
-            #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
+            updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
             for layer in range(self.num_rnn_layers):
-                updatedstate[layer, :] = self.cells[layer](lvl0input, current_state[layer, :, :])
+                updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
 
             logitskk = outputLayer(updatedstate[self.num_rnn_layers - 1, :])
 

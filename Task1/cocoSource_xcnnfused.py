@@ -2,6 +2,7 @@ from torch import nn
 import torch.nn.functional as F
 import torch
 import numpy as np
+torch.manual_seed(0)
 
 
 ######################################################################################################################
@@ -10,7 +11,7 @@ class imageCaptionModel(nn.Module):
         super(imageCaptionModel, self).__init__()
         """
         "imageCaptionModel" is the main module class for the image captioning network
-        
+
         Args:
             config: Dictionary holding neural network configuration
 
@@ -175,10 +176,10 @@ class RNN(nn.Module):
         """
         Args:
             input_size (Int)        : embedding_size
-            hidden_state_size (Int) : Number of features in the rnn cells (will be equal for all rnn layers) 
+            hidden_state_size (Int) : Number of features in the rnn cells (will be equal for all rnn layers)
             num_rnn_layers (Int)    : Number of stacked rnns
             cell_type               : Whether to use vanilla or GRU cells
-            
+
         Returns:
             self.cells              : A nn.ModuleList with entities of "RNNCell" or "GRUCell"
         """
@@ -238,7 +239,7 @@ class RNN(nn.Module):
             updatedstate=torch.zeros_like(current_state)
 
             # TODO
-            # you need to: 
+            # you need to:
             #create your lvl0input,
             #update the hidden cell state for every layer with inputs depending on the layer index
             # if you are at the last layer, then produce logitskk, tokens , run a             logits_series.append(logitskk), see the simplified rnn for the one layer version
@@ -267,19 +268,19 @@ class GRUCell(nn.Module):
 
         Returns:
             self.weight_u: A nn.Parametere with shape [hidden_state_sizes+inputSize, hidden_state_sizes]. Initialized using
-                           variance scaling with zero mean. 
+                           variance scaling with zero mean.
 
             self.weight_r: A nn.Parametere with shape [hidden_state_sizes+inputSize, hidden_state_sizes]. Initialized using
-                           variance scaling with zero mean. 
+                           variance scaling with zero mean.
 
             self.weight: A nn.Parametere with shape [hidden_state_sizes+inputSize, hidden_state_sizes]. Initialized using
-                         variance scaling with zero mean. 
+                         variance scaling with zero mean.
 
             self.bias_u: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero.
 
-            self.bias_r: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero. 
+            self.bias_r: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero.
 
-            self.bias: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero. 
+            self.bias: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero.
 
         Tips:
             Variance scaling:  Var[W] = 1/n
@@ -324,7 +325,7 @@ class RNNsimpleCell(nn.Module):
             self.weight: A nn.Parameter with shape [hidden_state_sizes+inputSize, hidden_state_sizes]. Initialized using
                          variance scaling with zero mean.
 
-            self.bias: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero. 
+            self.bias: A nn.Parameter with shape [1, hidden_state_sizes]. Initialized to zero.
 
         Tips:
             Variance scaling:  Var[W] = 1/n
@@ -359,8 +360,8 @@ class LSTMCell(nn.Module):
         Args:
             hidden_state_size: Integer defining the size of the hidden state of rnn cell
             inputSize: Integer defining the number of input features to the rnn
-  
-            note: the actual tensor has 2*hidden_state_size because it contains hiddenstate and memory cell      
+
+            note: the actual tensor has 2*hidden_state_size because it contains hiddenstate and memory cell
         Returns:
             self.weight_f ...
 
@@ -410,7 +411,7 @@ def loss_fn(logits, yTokens, yWeights):
     Args:
         logits          : shape[batch_size, truncated_backprop_length, vocabulary_size]
         yTokens (labels): Shape[batch_size, truncated_backprop_length]
-        yWeights        : Shape[batch_size, truncated_backprop_length]. Add contribution to the total loss only from words exsisting 
+        yWeights        : Shape[batch_size, truncated_backprop_length]. Add contribution to the total loss only from words exsisting
                           (the sequence lengths may not add up to #*truncated_backprop_length)
 
     Returns:
@@ -445,5 +446,3 @@ def loss_fn(logits, yTokens, yWeights):
 #
 #     sumLoss, meanLoss = loss_fn(logits, yTokens, yWeights)
 #
-
-
