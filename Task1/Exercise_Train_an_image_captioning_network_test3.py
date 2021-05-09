@@ -36,7 +36,8 @@ def main(config, modelParam):
 
 ########################################################################################################################
 if __name__ == '__main__':
-    data_dir = '../../shared/IN5400/dataforall/mandatory2/data/coco/'
+    data_dir = '../../../../shared/IN5400/dataforall/mandatory2/data/coco/'
+
 
     #train
     modelParam = {
@@ -57,7 +58,7 @@ if __name__ == '__main__':
     }
 
     config = {
-        'optimizer': 'adamW',  # 'SGD' | 'adam' | 'RMSprop' | 'adamW' 
+        'optimizer': 'adamW',  # 'SGD' | 'adam' | 'RMSprop' | 'adamW'
         'learningRate': {'lr': 0.001},  # learning rate to the optimizer
         'weight_decay': 0.00001,  # weight_decay value
         'number_of_cnn_features': 2048,  # Fixed, do not change
