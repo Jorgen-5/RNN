@@ -248,10 +248,12 @@ class RNN(nn.Module):
 
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
             #print("Current shape: ", current_state.shape)
-            #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
+            updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
 
-            for layer in range(self.num_rnn_layers):
-                updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
+            for layer in range(1,self.num_rnn_layers):
+                #print("layer: ",layer)
+                updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:], current_state[layer, :, :])
+
 
 
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
