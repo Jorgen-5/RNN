@@ -255,7 +255,7 @@ class RNN(nn.Module):
 
             for layer in range(1,self.num_rnn_layers):
                 #print("layer: ",layer)
-                updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:self.hidden_state_size], current_state[layer, :, :])
+                updatedstate[layer, :] = self.cells[layer](updatedstate[layer-1,:,:self.hidden_state_size], current_state[layer, :, :])
 
 
 
