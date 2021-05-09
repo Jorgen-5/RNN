@@ -29,8 +29,7 @@ def main(config, modelParam):
     #plotImagesAndCaptions
     if modelParam['inference'] == True:
         #plotImagesAndCaptions(model, modelParam, config, dataLoader)
-        validateCaptions(model, modelParam, config, dataLoader)
-
+        #validateCaptions(model, modelParam, config, dataLoader)
         plotImagesAndCaptions(model, modelParam, config, dataLoader)
 
 

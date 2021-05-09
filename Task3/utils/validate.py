@@ -12,11 +12,8 @@ def plotImagesAndCaptions(model, modelParam, config, dataLoader):
 
     fig, ax = plt.subplots()
     
-
-    
-    
     # for dataDict in dataLoader.myDataDicts['val']:
-    
+
     dataDict = next(iter(dataLoader.myDataDicts['val']))
 
     for key in ['xTokens', 'yTokens', 'yWeights', 'cnn_features']:
@@ -75,6 +72,3 @@ def plotImagesAndCaptions(model, modelParam, config, dataLoader):
     return
 
 ########################################################################################################################
-
-
-
