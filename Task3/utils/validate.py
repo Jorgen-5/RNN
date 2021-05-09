@@ -11,7 +11,7 @@ def plotImagesAndCaptions(model, modelParam, config, dataLoader):
     # dataDict = next(iter(dataLoader.myDataDicts['val']))
 
     fig, ax = plt.subplots()
-    
+
     # for dataDict in dataLoader.myDataDicts['val']:
 
     dataDict = next(iter(dataLoader.myDataDicts['val']))
@@ -64,6 +64,7 @@ def plotImagesAndCaptions(model, modelParam, config, dataLoader):
 
     # show image
     imgpath = modelParam['data_dir']+modelParam['modeSetups'][0][0]+ '2017/'+dataDict['imgPaths'][batchInd]
+    print("Image path: ", imgpath)
     img = mpimg.imread(imgpath)
     plt.ion()
     ax.imshow(img)
