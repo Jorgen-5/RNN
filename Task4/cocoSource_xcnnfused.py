@@ -497,16 +497,16 @@ class LSTMCell(nn.Module):
 
 
 
-        print("x:         ", x.shape)
-        print("state_old: ", state_old.shape)
+        #print("x:         ", x.shape)
+        #print("state_old: ", state_old.shape)
         #print()
 
         # TODO:
         input_cat = torch.cat((x, state_old), dim=1)
 
-        print("input_cat: ", input_cat.shape)
-        print("weight_i : ", self.weight_i.shape)
-        print("bias_i:    ", self.bias_i.shape)
+        #print("input_cat: ", input_cat.shape)
+        #print("weight_i : ", self.weight_i.shape)
+        #print("bias_i:    ", self.bias_i.shape)
 
         #print("Weight_i: ", self.weight_f.shape)
         #print("bias_i:   ", self.bias_i.shape)
