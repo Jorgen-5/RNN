@@ -251,7 +251,7 @@ class RNN(nn.Module):
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
             #print("Current shape: ", current_state.shape)
             updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
-            print("Update shape: ", updatedstate.shape)
+            #print("Update shape: ", updatedstate.shape)
 
             for layer in range(1,self.num_rnn_layers):
                 #print("layer: ",layer)
@@ -479,18 +479,17 @@ class LSTMCell(nn.Module):
             state_new: The updated hidden state of the recurrent cell. Shape [batch_size, hidden_state_sizes]
 
         """
-        print()
-
-        print("x:         ", x.shape)
-        print("state_old: ", state_old.shape)
+        #print()
+        #print("x:         ", x.shape)
+        #print("state_old: ", state_old.shape)
         #print()
 
         # TODO:
         input_cat = torch.cat((x, state_old), dim=1)
 
-        print("input_cat: ", input_cat.shape)
-        print("weight_i : ", self.weight_i.shape)
-        print("bias_i:    ", self.bias_i.shape)
+        #print("input_cat: ", input_cat.shape)
+        #print("weight_i : ", self.weight_i.shape)
+        #print("bias_i:    ", self.bias_i.shape)
 
         input_gate = torch.sigmoid(torch.mm(input_cat, self.weight_i) + self.bias_i)
         #input_gate = torch.sigmoid(input_gate)
