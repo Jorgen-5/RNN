@@ -478,10 +478,10 @@ class LSTMCell(nn.Module):
             state_new: The updated hidden state of the recurrent cell. Shape [batch_size, hidden_state_sizes]
 
         """
+        print()
 
-
-        #print("x:         ", x.shape)
-        #print("state_old: ", state_old.shape)
+        print("x:         ", x.shape)
+        print("state_old: ", state_old.shape)
         #print()
 
         # TODO:
