@@ -30,7 +30,7 @@ class imageCaptionModel(nn.Module):
         self.hidden_state_sizes = config['hidden_state_sizes']
         self.num_rnn_layers = config['num_rnn_layers']
         self.cell_type = config['cellType']
-        self.last_layer_size = 10 + config['hidden_state_sizes'] + self.embedding_size
+        self.last_layer_size = 10 + 2*config['hidden_state_sizes'] #+ self.embedding_size
 
         self.Embedding = nn.Embedding(self.vocabulary_size, self.embedding_size)
 
