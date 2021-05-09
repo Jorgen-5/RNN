@@ -267,13 +267,12 @@ class RNN(nn.Module):
             lvl0input = torch.cat((baseimgfeat, tokens_vector), dim=1)
             #print("Current shape: ", current_state.shape)
             #updatedstate[0, :] = self.cells[0](lvl0input, current_state[0, :, :])
+            updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
 
-            for layer in range(self.num_rnn_layers):
-                if layer == 0:
-                    updatedstate[layer, :] = self.cells[layer].forward(lvl0input, current_state[layer-1,:])
-                if layer > 0:
-                    attention = torch.cat((current_state[layer-1,:], attentionlayer(current_state[layer-1,:])), dim=1)
-                    updatedstate[layer, :] = self.cells[layer].forward(lvl0input, attention)
+
+            for layer in range(1, self.num_rnn_layers):
+                attention = torch.cat((current_state[layer-1,:], attentionlayer(current_state[layer-1,:])), dim=1)
+                updatedstate[layer, :] = self.cells[layer].forward(attention, current_state[layer-1,:], current_state[layer,:])
 
 
             out = updatedstate[self.num_rnn_layers - 1, : , :self.hidden_state_size]
