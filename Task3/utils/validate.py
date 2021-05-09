@@ -40,7 +40,7 @@ def plotImagesAndCaptions(model, modelParam, config, dataLoader):
 
     print('predicted_tokens.shape',predicted_tokens.shape)
 
-    batchInd = 0
+    batchInd = 1
 
     sentence = []
     foundEnd = False
