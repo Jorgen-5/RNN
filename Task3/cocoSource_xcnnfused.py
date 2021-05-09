@@ -188,6 +188,8 @@ class RNN(nn.Module):
         self.num_rnn_layers = num_rnn_layers
         self.cell_type = cell_type
 
+        print("Hidden size: ", sefl.hidden_state_size )
+
         # TODO
         input_size_list = [self.input_size, self.hidden_state_size]
 
