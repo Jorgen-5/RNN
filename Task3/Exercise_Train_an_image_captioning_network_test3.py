@@ -54,7 +54,7 @@ if __name__ == '__main__':
         'restoreModelBest': 0,
         'modeSetups': [['train', True], ['val', True]],
         'inNotebook': False,  # If running script in jupyter notebook
-        'inference': True
+        'inference': False
     }
 
     config = {
